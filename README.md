@@ -48,6 +48,10 @@ _**Edge detection**_
 Each function implements edge detections according to a different method.
 
 edgeDetectionSobel: blurring on one direction and derivative on the second direction.
+
+example of edge detection with sobel algorithm :
+<a href="http://www.siz.co.il/"><img src="http://up419.siz.co.il/up3/0qmdaddm25mz.png" border="0" alt="sobel" /></a>
+
 edgeDetectionZeroCrossingSimple/LOG: convolution with laplacian of Gaussian kernel and look for patterns.
 edgeDetectionCanny: smooth the image with a Gaussian kernel, compute the partial derivatives Ix,Iy , compute magnitude and cirection of the gradient, quantize the gradient directions, perform non-maximum suppression, for each pixel compare to pixels along its gradient direction.
 If the magnitude of the pixel is not a maximum, set it to zero , Define two thresholds T1 > T2
