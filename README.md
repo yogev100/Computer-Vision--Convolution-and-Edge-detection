@@ -35,6 +35,9 @@ _**Image derivatives & blurring**_
 
 convDerivative: function that computes the magnitude and the direction of an image gradient. You should derive the image in each direction separately (rows and column) using simple convolution with [1; 0;-1]T and [1; 0;-1] to get the two image derivatives. Next, use these derivative images to compute the magnitude and direction matrix and also the x and y derivatives.
 
+example of gradient derivatives and magnitude :
+<a href="http://www.siz.co.il/"><img src="http://up419.siz.co.il/up3/yrytzjykzj3y.png" border="0" alt="derivative" /></a>
+
 blurImage1: blurImage1 should be fully implemented by our self, using your our implementation of convolution and Gaussian kernel.
 blurImage2: blurImage2 should be implemented by using pythons internal functions:
 flter2D and getGaussianKernel.
