@@ -1,20 +1,10 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import cv2
-from scipy import signal, ndimage
 
 
-def main():
-    img = cv2.imread('boxman.jpg',cv2.IMREAD_GRAYSCALE)
-    plt.gray()
-    a,b,c,d=convDerivative(img)
-    f, ax = plt.subplots(1,3)
-    ax[0].imshow(b)
-    ax[1].imshow(c)
-    ax[2].imshow(d)
-    plt.show()
 
-
+def myID() -> (np.int,np.int):
+    return 205966781,205836927
 
 def conv1D(inSignal:np.ndarray,kernel1:np.ndarray)->np.ndarray:
     res = np.zeros(len(inSignal)+len(kernel1)-1)
@@ -182,18 +172,12 @@ def sobel_filters(img,thresh:float=0.7):
 def edgeDetectionCanny(img: np.ndarray, thrs_1: float=100, thrs_2: float=50)-> (np.ndarray, np.ndarray):
     # my implementation
     mag,directions=sobel_filters(img)
-    plt.imshow(mag)
-    plt.show()
     after_supp_img=non_max_suppression(mag,directions)
-    plt.imshow(after_supp_img)
-    plt.show()
     after_thresh_img,weak,strong=threshold(after_supp_img,thrs_2,thrs_1)
-    plt.imshow(after_thresh_img)
-    plt.show()
     after_hys=hysteresis(after_thresh_img,weak,strong)
-    #cv2
+    # cv2
     cv=cv2.Canny(img,50,100)
-    return cv,after_hys
+    return cv, after_hys
 
 def non_max_suppression(img:np.ndarray, D):
     M, N = img.shape
@@ -274,15 +258,14 @@ def hysteresis(img,weak, strong=255):
     return img
 
 def houghCircle(img:np.ndarray,min_radius:float,max_radius:float)->list:
-    circles_list=[]
+    circles_list = []
     _,direct=sobel_filters(img)
     direct=np.radians(direct)
     any_circle=np.zeros((len(img),len(img[0]),max_radius+1))
     canny_img=cv2.Canny(img,50,100)
     for x in range(0,len(canny_img)):
-        print(x)
         for y in range(0,len(canny_img[0])):
-            if (canny_img[x][y] > 0):
+            if canny_img[x][y] > 0:
                 for r in range(min_radius,max_radius+1):
                     cy1 = int(y+ r * np.sin(direct[x, y]-np.pi/2))
                     cx1 = int(x - r * np.cos(direct[x, y]-np.pi/2))
@@ -293,60 +276,32 @@ def houghCircle(img:np.ndarray,min_radius:float,max_radius:float)->list:
                     if 0 < cx2 < len(any_circle) and 0 < cy2 < len(any_circle[0]):
                         any_circle[cx2,cy2,r]+=1
 
-    print(any_circle.max())
+    # filtering with thresh
     thresh = 0.50*any_circle.max()
     b_center,a_center,radius=np.where(any_circle>=thresh)
-    print(b_center)
-    print(a_center)
-    print(radius)
-    for i in range(0,len(a_center)):
-        circles_list.append((a_center[i],b_center[i],radius[i]))
 
-    eps=12
+    # deleting a similar circles
+    eps = 14
+    for j in range(0, len(a_center)):
+        if a_center[j] == 0 and b_center[j] == 0 and radius[j] == 0:
+            continue
+        temp = (b_center[j], a_center[j], radius[j])
+        index_a = np.where((temp[0]-eps <= b_center) & (b_center <= temp[0]+eps)
+                           & (temp[1]-eps <= a_center) & (a_center <= temp[1]+eps)
+                           & (temp[2]-eps <= radius) & (radius <= temp[2]+eps))[0]
+        for i in range(1, len(index_a)):
+            b_center[index_a[i]] = 0
+            a_center[index_a[i]] = 0
 
-    ans=[]
-    while len(circles_list)>0:
-        temp=circles_list[0]
-        index_i=np.where(temp-eps <= circles_list <= temp+eps)
+            radius[index_a[i]] = 0
 
-        if len(index_i)>0:
-            ans.append(circles_list[index_i[0]])
-            del circles_list[index_i]
+    # building the last list
+    for i in range(0, len(a_center)):
+        if a_center[i] == 0 and b_center[i] == 0 and radius[i] == 0:
+            continue
+        circles_list.append((a_center[i], b_center[i], radius[i]))
 
-        # temp_list=[]
-        # for i in range(0,len(circles_list)):
-        #     if temp[0]-eps <= circles_list[i][0] <= temp[0]+eps and temp[1]-eps <= circles_list[i][1] <= temp[1]+eps and temp[2]-eps <= circles_list[i][2] <= temp[2]+eps:
-        #         temp_list.append(circles_list[i])
-        #         del circles_list[i]
-
-        # if len(temp_list)>0:
-        #     ans.append(temp_list[0])
-        #
-        # del temp_list[:]
-
-
-
-
-        # if i > len(circles_list)-1:
-        #     break
-        # temp=circles_list[i]
-        # print(i)
-        # l=len(circles_list)
-        # j=0
-        # for k in range(i+1,len(circles_list)-1):
-        #     if l!= len(circles_list):
-        #         k-=j
-        #         l=len(circles_list)
-        #     if k==len(circles_list):
-        #         break
-        #     if temp[0]-eps <= circles_list[k][0] <= temp[0]+eps and temp[1]-eps <= circles_list[k][1] <= temp[1]+eps and temp[2]-eps <= circles_list[k][2] <= temp[2]+eps:
-        #         del circles_list[k]
-        #         j += 1
-        #     else:
-        #         j=0
-
-
-    return ans
+    return circles_list
 
 def diff(img1:np.ndarray,img2:np.ndarray)->float:
     diff=np.abs(img1.sum()-img2.sum())
