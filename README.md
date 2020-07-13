@@ -26,6 +26,7 @@ Conv2D : implementation convolution of 2D discrete signal
 
 example of comprasion between cv2 library against my implementation :
 <a href="http://www.siz.co.il/"><img src="http://up419.siz.co.il/up2/hmzmwyedyk5j.png" border="0" alt="conv2D" /></a>
+
 Note: The result of conv1D should match np.convolve(signal, kernel, 'full') and conv2D should match cv2._lter2D with option 'borderType'=cv2.BORDER REPLICATE.
 
 
