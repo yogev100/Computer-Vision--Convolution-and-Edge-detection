@@ -25,7 +25,9 @@ conv1D  : implementation convolution of 1D discrete signal.
 Conv2D : implementation convolution of 2D discrete signal
 
 example of comprasion between cv2 library against my implementation :
+
 <a href="http://www.siz.co.il/"><img src="http://up419.siz.co.il/up2/hmzmwyedyk5j.png" border="0" alt="conv2D" /></a>
+
 
 Note: The result of conv1D should match np.convolve(signal, kernel, 'full') and conv2D should match cv2._lter2D with option 'borderType'=cv2.BORDER REPLICATE.
 
@@ -36,7 +38,9 @@ _**Image derivatives & blurring**_
 convDerivative: function that computes the magnitude and the direction of an image gradient. You should derive the image in each direction separately (rows and column) using simple convolution with [1; 0;-1]T and [1; 0;-1] to get the two image derivatives. Next, use these derivative images to compute the magnitude and direction matrix and also the x and y derivatives.
 
 example of gradient derivatives and magnitude :
+
 <a href="http://www.siz.co.il/"><img src="http://up419.siz.co.il/up3/yrytzjykzj3y.png" border="0" alt="derivative" /></a>
+
 
 blurImage1: blurImage1 should be fully implemented by our self, using your our implementation of convolution and Gaussian kernel.
 blurImage2: blurImage2 should be implemented by using pythons internal functions:
@@ -50,7 +54,9 @@ Each function implements edge detections according to a different method.
 edgeDetectionSobel: blurring on one direction and derivative on the second direction.
 
 example of edge detection with sobel algorithm :
+
 <a href="http://www.siz.co.il/"><img src="http://up419.siz.co.il/up3/0qmdaddm25mz.png" border="0" alt="sobel" /></a>
+
 
 edgeDetectionZeroCrossingSimple/LOG: convolution with laplacian of Gaussian kernel and look for patterns.
 edgeDetectionCanny: smooth the image with a Gaussian kernel, compute the partial derivatives Ix,Iy , compute magnitude and cirection of the gradient, quantize the gradient directions, perform non-maximum suppression, for each pixel compare to pixels along its gradient direction.
@@ -69,3 +75,7 @@ _**Hough Circles**_
 3.	Vote the all possible circles in accumulator.
 4.	The local maximum voted circles of Accumulator A gives the circle Hough space.
 5.	The maximum voted circle of Accumulator gives the circle.
+
+example of drawing circles on the right positions :
+
+<a href="http://www.siz.co.il/"><img src="http://up419.siz.co.il/up2/ieid3j3nwyzm.png" border="0" alt="circle_hough" /></a>
