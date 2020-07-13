@@ -1,14 +1,15 @@
 # Computer-Vision--Convolution-and-Edge-detection
 
-**The purpose of this exercise is to help you understand the concept of the convolution and edge
-detection by performing simple manipulations on images.**
+ **The purpose of this exercise is to help you understand the concept of the convolution and edge detection by performing simple manipulations on images.** 
 
 This exercise covers:
 _ Implementing convolution on 1D and 2D arrays
 _ Performing image derivative and image blurring
 		_ Edge detection
 
-Submitted files:
+
+
+**Submitted files:**
 Ex2_main.py: 
 All the program will run in this file with test functions that we wrote.
 This file runs all the functions we need to execute, present each image and compare our results to cv2 results.
@@ -22,6 +23,9 @@ Functions:
 Convolution
 conv1D  : implementation convolution of 1D discrete signal.
 Conv2D : implementation convolution of 2D discrete signal
+
+example of comprasion between cv2 library against my implementation :
+<a href="http://www.siz.co.il/"><img src="http://up419.siz.co.il/up2/hmzmwyedyk5j.png" border="0" alt="conv2D" /></a>
 Note: The result of conv1D should match np.convolve(signal, kernel, 'full') and conv2D should match cv2._lter2D with option 'borderType'=cv2.BORDER REPLICATE.
 
 
